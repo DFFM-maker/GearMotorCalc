@@ -1,0 +1,68 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Calibri;}{\f1 Consolas;}}
+\fs22
+
+\b GearMotorCalc - Istruzioni d'uso\b0\par
+Versione: 1.0\par
+\par
+\pard
+Questo documento descrive come utilizzare il foglio Excel per il dimensionamento di un motoriduttore applicato a una bobina. Il file include:\par
+- \b Input Dati\b0: parametri principali inseribili dall'utente.\par
+- \b Calcoli\b0: risultati (inerzia, accelerazione, coppie, potenze, rapporto di riduzione, lato motore, RMS, duty S3).\par
+- \b Ciclo\b0: serie temporali (tempo, coppia, velocit\’e0) e grafico del ciclo.\par
+\par
+\b 1) Input Dati\b0\par
+Compila la colonna "Valore" con i dati del tuo caso:\par
+- Massa bobina [kg] (es. 350)\par
+- Diametro bobina [mm] (es. 550)\par
+- Tempo di rotazione attiva [s] (es. 3)\par
+- Tempo di pausa [s] (es. 2)\par
+- Velocit\’e0 bobina [rpm] (es. 80)\par
+- Rendimento riduttore [-] (es. 0,95)\par
+- Rendimento motore [-] (es. 0,90)\par
+- Fattore di servizio (es. S3)\par
+- Coppia resistente carico [Nm] (stima; es. 0–100)\par
+- n motore nominale target [rpm] (es. 1500)\par
+\par
+Suggerimenti:\par
+- Inserire i rendimenti come frazioni (0,95 = 95\%).\par
+- Se la bobina \’e8 ad anello sottile, l’inerzia effettiva pu\’f2 essere pi\’f9 alta rispetto al cilindro pieno.\par
+\par
+\b 2) Calcoli\b0\par
+Il foglio calcola automaticamente:\par
+- Raggio medio r [m] = Diametro/2/1000\par
+- Momento di inerzia J [kg·m\’b2] = 0,5·m·r\’b2 (cilindro pieno)\par
+- Velocit\’e0 angolare \’f9 [rad/s] = 2\’b7\’c0·n/60\par
+- Accelerazione angolare \’e1 [rad/s\’b2] = \’f9 / t_rot\par
+- Coppia accelerazione carico T_acc = J·\’e1\par
+- Coppia totale carico T_tot = T_acc + T_res\par
+- Potenza carico P_load [kW] = T_tot·n/9550\par
+- Rapporto di riduzione i = n_motore_target / n_bobina\par
+- Velocit\’e0 motore n_mot = n_bobina·i\par
+- Coppia motore T_mot = T_tot / (\’e7_riduttore · i)\par
+- P motore meccanica [kW] = T_mot·n_mot/9550\par
+- P elettrica richiesta [kW] = P_mech_mot / \’e7_motore\par
+- Periodo ciclo T [s] = t_rot + t_pausa\par
+- Duty cycle S3 = t_rot / T\par
+- Cicli/min = 60 / T\par
+- Coppia equivalente RMS (carico e motore)\par
+\par
+\b 3) Ciclo e grafico\b0\par
+Il foglio "Ciclo" mostra un profilo semplificato:\par
+- Accelerazione lineare da 0 a n_bobina in t_rot (coppia costante = T_tot).\par
+- Pausa a coppia e velocit\’e0 nulle per t_pausa.\par
+Il grafico presenta sia la coppia sia la velocit\’e0 nel tempo (coppia su asse primario, velocit\’e0 su asse secondario).\par
+\par
+\b 4) Note e limiti del modello\b0\par
+- Il ciclo \’e8 semplificato: non include un tratto a velocit\’e0 costante n\’e9 la decelerazione attiva.\par
+- La coppia resistente T_res \’e8 considerata costante.\par
+- Per un dimensionamento pi\’f9 conservativo, applicare un margine (es. 1,3–1,5x) su coppia/potenza lato motore e verificare con le curve del costruttore.\par
+\par
+\b 5) Formattazione italiana\b0\par
+Il file Excel utilizza formattazioni locali italiane per numeri e percentuali (virgola decimale). Se il tuo Excel è impostato su un'altra lingua, attiva "Usa separatori di sistema" o imposta la località italiana per visualizzare virgole decimali.\par
+\par
+\b 6) Versioning\b0\par
+Il file \’e8 privo di macro. Modifiche successive (layout, formule, grafici) verranno gestite tramite branch e pull request.\par
+\par
+Fine.\par
+}
